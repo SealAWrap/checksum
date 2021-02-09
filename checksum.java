@@ -11,24 +11,33 @@ public class checksum
         int quotient;             // The result of evaluating the assignment:  quotient   = sum / (max_int + 1);
         int remainder;            // The result of evaluating the assignment:  remainder  = sum % (max_int + 1 );
         int complement;           // The result of evaluationg the assignment: complement = max_int - sum;
+        int input;                // Tempoary Placeholder for the value of the input
     
         Scanner stdin = new Scanner(System.in);
-        while(count > 0){  
-            if(count == 5){
-                checksum = stdin.nextInt();
-            }else{
-                sum += stdin.nextInt();
+        try{
+            while(count > 0){  
+                input = stdin.nextInt();
+                if(input < 0 || input > 255){
+                    throw new Exception("Out of bound value, Termination program");
+                }
+                if(count == 5){
+                    checksum = stdin.nextInt();
+                }else{
+                    sum += stdin.nextInt();
+                }
+                count--;
             }
-            count--;
-        }
-        quotient = sum / (max_int + 1);
-        remainder = sum % (max_int + 1);
-        sum = quotient + remainder;
-        complement = max_int - sum;
-       
-        System.out.printf("Stored Checksum: %d, Computed Checksum: %d\n", checksum, complement);
-        if (checksum != complement ) {
-           System.err.printf("Error Detected!\n");  
-        }
+            quotient = sum / (max_int + 1);
+            remainder = sum % (max_int + 1);
+            sum = quotient + remainder;
+            complement = max_int - sum;
+        
+            System.out.printf("Stored Checksum: %d, Computed Checksum: %d\n", checksum, complement);
+            if (checksum != complement ) {
+            System.err.printf("Error Detected!\n");  
+            }
+        }catch (Exception except){
+            System.out.println(except.getMessage());
+        }    
     }//end of main
 }//end of checksum class

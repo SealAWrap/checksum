@@ -12,30 +12,40 @@ public class checksum16bit
         int remainder;            // The result of evaluating the assignment:  remainder  = sum % (max_int + 1 );
         int complement;           // The result of evaluationg the assignment: complement = max_int - sum;
         int number;               // Number is a temp place holder
+        int input;                // Tempoary Placeholder for the value of the input
     
         Scanner stdin = new Scanner(System.in);
         System.out.println("How many numbers will you be inputting?");
         number = stdin.nextInt();
+        input = number;
         count = number;
         //count = ((number >> 8) & 0x0F)*2;
         number = number/2 +1; // The place of the n/2 +1
 
-        while(count > 0){  
-            if(count == number){
-                checksum = stdin.nextInt();
-            }else{
-                sum += stdin.nextInt();
+        try{
+            while(count > 0){
+                input = stdin.nextInt();
+                if(input < 0 || input > 65535){
+                    throw new Exception("Out of bound value, Termination program");
+                }  
+                if(count == number){
+                    checksum = input;
+                }else{
+                    sum += input;
+                }
+                count--;
             }
-            count--;
-        }
-        quotient = sum / (max_int + 1);
-        remainder = sum % (max_int + 1);
-        sum = quotient + remainder;
-        complement = max_int - sum;
-       
-        System.out.printf("Stored Checksum: %d, Computed Checksum: %d\n", checksum, complement);
-        if (checksum != complement ) {
-           System.err.printf("Error Detected!\n");  
-        }
+            quotient = sum / (max_int + 1);
+            remainder = sum % (max_int + 1);
+            sum = quotient + remainder;
+            complement = max_int - sum;
+        
+            System.out.printf("Stored Checksum: %d, Computed Checksum: %d\n", checksum, complement);
+            if (checksum != complement ) {
+            System.err.printf("Error Detected!\n");  
+            }
+        }catch (Exception except){
+            System.out.println(except.getMessage());
+        } 
     }//end of main
 }//end of checksum class
